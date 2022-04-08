@@ -1,0 +1,40 @@
+version: "3"
+services:
+    outer-proxy:
+        build:
+            context: "."
+            dockerfile: Dockerfile
+        ports:
+            - "8080:80"
+        volumes:
+            - ./outer-proxy/conf:/etc/nginx
+            - ./outer-proxy/logs:/var/log/nginx
+        networks:
+            fakelan:
+                ipv4_address: 10.20.30.2
+    inner-proxy:
+        build:
+            context: "."
+            dockerfile: Dockerfile
+        ports:
+            - "9090:80"
+        volumes:
+            - ./inner-proxy/conf:/etc/nginx
+            - ./inner-proxy/logs:/var/log/nginx
+        networks:
+            fakelan:
+                ipv4_address: 10.20.30.3
+    backend:
+        build:
+            context: "./backend"
+        ports:
+            - "4444:4444"
+        networks:
+            fakelan:
+                ipv4_address: 10.20.30.4
+
+networks:
+    fakelan:
+        ipam:
+            config:
+                - subnet: "10.20.30.0/24"
