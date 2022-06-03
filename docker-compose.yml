@@ -4,8 +4,12 @@ services:
         build:
             context: "."
             dockerfile: Dockerfile
+        extra_hosts:
+            - "outer-proxy.homelab.dev:10.20.30.2"
+            - "inner-proxy.homelab.dev:10.20.30.3"
         ports:
             - "8080:80"
+            - "8443:443"
         volumes:
             - ./outer-proxy/conf:/etc/nginx
             - ./outer-proxy/logs:/var/log/nginx
@@ -16,8 +20,12 @@ services:
         build:
             context: "."
             dockerfile: Dockerfile
+        extra_hosts:
+            - "outer-proxy.homelab.dev:10.20.30.2"
+            - "inner-proxy.homelab.dev:10.20.30.3"
         ports:
             - "9090:80"
+            - "9443:443"
         volumes:
             - ./inner-proxy/conf:/etc/nginx
             - ./inner-proxy/logs:/var/log/nginx
