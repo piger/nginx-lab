@@ -43,3 +43,13 @@ func (s *Server) baseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (s *Server) largeHandler(w http.ResponseWriter, r *http.Request) {
+	b := make([]byte, 8192)
+	for i := range b {
+		b[i] = 'A'
+	}
+
+	w.Header().Add("X-Large-Header", string(b))
+	fmt.Fprintf(w, "very large\n")
+}

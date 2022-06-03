@@ -30,6 +30,8 @@ func (s *Server) Run() error {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", s.baseHandler)
+	mux.HandleFunc("/large", s.largeHandler)
+	mux.HandleFunc("/large_error", s.largeHandler)
 
 	hs := &http.Server{
 		Addr:           fmt.Sprintf("%s:%d", s.Address, s.Port),
