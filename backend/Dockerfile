@@ -1,12 +1,12 @@
 # First stage
-FROM golang:1.18 as builder
+FROM golang:1.20 as builder
 
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
-RUN go build -v -o backend
+RUN go build -o backend
 
 # Second stage
 FROM debian:stable-slim
