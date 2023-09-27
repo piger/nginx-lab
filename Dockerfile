@@ -2,9 +2,9 @@ FROM debian:stable-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y --no-install-recommends --no-install-suggests \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates dumb-init nginx-full libnginx-mod-http-lua libnss3-tools curl && \
     rm -rf /var/lib/apt/lists/*
 
