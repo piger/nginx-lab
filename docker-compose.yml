@@ -12,7 +12,6 @@ services:
       - "8443:443"
     volumes:
       - ./outer-proxy/conf:/etc/nginx
-      - ./outer-proxy/logs:/var/log/nginx
     networks:
       fakelan:
         ipv4_address: 10.20.30.2
@@ -30,7 +29,6 @@ services:
       - "9443:443"
     volumes:
       - ./inner-proxy/conf:/etc/nginx
-      - ./inner-proxy/logs:/var/log/nginx
     networks:
       fakelan:
         ipv4_address: 10.20.30.3
