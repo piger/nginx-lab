@@ -10,9 +10,10 @@ This repository contains a virtual "lab" that can be used to experiment with Ngi
 
 ## Usage
 
-Run `docker-compose up` to spin up the whole stack, then your main (outer) frontend can be accessed on `localhost:8080`
-and your secondary (inner) frontend on `localhost:9090`; the backend application is bound to the `/app` location on both
-proxies.
+Run `docker compose up` to spin up the whole stack, then your main (outer) frontend can be accessed
+on `localhost:8080` (HTTP) or `localhost:8443` (HTTPS) and your secondary (inner) frontend on
+`localhost:9090` (and 9443 for HTTPS); the backend application is bound to the `/app` location on
+both proxies.
 
 ### TLS support
 
@@ -22,5 +23,14 @@ domain `*.homelab.dev`.
 To send an HTTPS request to the outer proxy with `curl`:
 
 ```
-$ curl -k --resolve outer-proxy.homelab.dev:8443:127.0.0.1 https://outer-proxy.homelab.dev:8443
+$ curl --insecure --resolve '*:8443:127.0.0.1' https://example.homelab.dev:8443
+```
+
+### Logs
+
+In an ideal world Docker Compose would distinguish between stdout and sterr when streaming logs, but
+until then:
+
+```
+$ docker compose logs -f outer-proxy -n 0 --no-log-prefix | jq -R '. as $line | try (fromjson) catch $line'
 ```
